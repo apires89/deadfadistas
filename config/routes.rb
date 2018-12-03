@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
   root to: 'pages#home'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  resources :dead_players, only: :show do
+    # index show new create edit update delete
+    resources :reviews, only: [:create, :destroy]
+    resources :instruments, only: [:index]
+    member do
+      post :publish
+      post :unpublish
+    end
+    collection do
+      get :top
+    end
+  end
+
+  resources :reviews, only: :destroy
 end
